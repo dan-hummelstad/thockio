@@ -1,5 +1,5 @@
 
-type Branded<T, Brand> = T & { readonly __brand: Brand }
+export type Branded<T, Brand> = T & { readonly __brand: Brand }
 
 export type EntityId = Branded<string, "EntityId">
 export type SpaceId = Branded<string, "SpaceId">

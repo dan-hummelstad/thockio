@@ -13,8 +13,10 @@ export interface CameraState {
   updateCamera: (partial: Partial<Camera>) => void
   
   // Helper functions for coordinate mapping
-  screenToSpace: (screenX: number, screenY: number) => Vec
-  spaceToScreen: (worldX: number, worldY: number) => Vec
+  screenToSpace: (screenPosition: Vec) => Vec
+  spaceToScreen: (spacePosition: Vec) => Vec
+
+  containsPoint: (point: Vec) => boolean
 
   zoomToPoint: (mousePosition: Vec, zoomDelta: number) => void
 }
@@ -30,29 +32,35 @@ export const useCameraStore = create<CameraState>((set, get) => ({
     })),
 
   // Convert screen coordinates to space coordinates
-  screenToSpace: (screenX: number, screenY: number) => {
+  screenToSpace: (screenPosition: Vec) => {
     const { camera } = get()
     return new Vec(
-      (screenX - camera.viewport.center().x) / camera.zoom,
-      (screenY - camera.viewport.center().y) / camera.zoom
+      (screenPosition.x - camera.viewport.center().x) / camera.zoom,
+      (screenPosition.y - camera.viewport.center().y) / camera.zoom
     )
   },
 
   // Convert space coordinates to screen coordinates
-  spaceToScreen: (worldX: number, worldY: number) => {
+  spaceToScreen: (spacePosition: Vec) => {
     const { camera } = get()
     return new Vec(
-      worldX * camera.zoom + camera.viewport.center().x,
-      worldY * camera.zoom + camera.viewport.center().y
+      spacePosition.x * camera.zoom + camera.viewport.center().x,
+      spacePosition.y * camera.zoom + camera.viewport.center().y
     )
   },
+
+  containsPoint: (point: Vec) => {
+    const { camera } = get()
+    return camera.viewport.contains(point)
+  },
+
   zoomToPoint: (mousePosition: Vec, zoomDelta: number) => {
     const { camera } = get()
     const oldZoom = camera.zoom
     const newZoom = Math.max(oldZoom + zoomDelta, 0.1)
     
     // Get the world-space point under the mouse BEFORE zoom changes
-    const worldPos = get().screenToSpace(mousePosition.x, mousePosition.y)
+    const worldPos = get().screenToSpace(mousePosition)
     
     // Calculate new viewport center so that worldPos stays under the mouse
     // Formula: newCenter = mousePosition - worldPos * newZoom

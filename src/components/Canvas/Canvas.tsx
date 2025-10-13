@@ -1,4 +1,4 @@
-import React, { useCallback } from "react"
+import React, { useCallback, useEffect } from "react"
 import { TestEntity, TestEntity1, TestEntity2, TestEntity3, useSpaceStore } from "@/stores/SpaceStore"
 import { useCanvasConfig } from "@/stores/CanvasStore"
 import { useCanvasDimensions } from "@/components/Canvas/useCanvasDimensions"
@@ -7,15 +7,26 @@ import { useRenderer } from "@/components/Canvas/useRenderer"
 import { createSpaceId } from "@/core/types/identifiers"
 import { useCameraStore } from "@/stores/CameraStore"
 import useGestures from "@/hooks/use-gestures"
+import { useToolsStore } from "@/stores/ToolsStore"
+import { SelectionTool } from "@/tools/selectionTool"
+import { SplineTool } from "@/tools/splineTool"
 
 interface CanvasProps {
   aspectRatio?: number
   containerRef?: React.RefObject<HTMLDivElement>
 }
 
+const TOOLS = [
+  new SelectionTool(),
+  new SplineTool()
+] as const
+
+// Probably refactor all these stores into a greater context hook of some sort
+
 export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
   const space = useSpaceStore()
   const camera = useCameraStore()
+  const tools = useToolsStore()
   const { backgroundColor } = useCanvasConfig()
 
   // Provide refs / state for the container and dimensions
@@ -41,7 +52,8 @@ export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
     dimensions,
     backgroundColor,
     space: space.currentSpace,
-    camera
+    camera,
+    tools
   })
 
   useGestures({ containerElement })
@@ -51,12 +63,21 @@ export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
     e.preventDefault();
   }, []);
 
+  useEffect(() => {
+    TOOLS.forEach(tool => {
+      tools.registerTool(tool)
+    })
+    tools.setCurrentTool("spline")
+  }, [])
 
-  // Render loop: if desired to animate, parent can call camera or a store to enable rendering
-  // (the animation loop may be handled by a separate hook or store elsewhere)
+  // too re-render isnt happening immediately after tool state changes or something
+  tools.currentTool?.store.subscribe(() => {
+    const frame = requestAnimationFrame(() => performRender())
+    return () => cancelAnimationFrame(frame)
+  })
 
   // Populate test entities once (kept here for compatibility)
-  React.useEffect(() => {
+  useEffect(() => {
     if (!space.currentSpace) {
       space.createSpace(createSpaceId())
       space.addEntity(TestEntity())
@@ -68,7 +89,7 @@ export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
     }
     const frame = requestAnimationFrame(() => performRender())
     return () => cancelAnimationFrame(frame)
-  }, [space, performRender])
+  }, [space, tools, performRender])
 
   if (!isInitialized) {
     return (

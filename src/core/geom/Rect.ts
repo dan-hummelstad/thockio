@@ -53,6 +53,15 @@ export default class Rect {
     return new LineSegment(this.topRight, this.bottomRight)
   }
 
+  get points(): Vec[] {
+    return [
+      this.topLeft,
+      this.bottomLeft,
+      this.bottomRight,
+      this.topRight
+    ]
+  }
+
   // area and center
   area(): number {
     return Math.abs(this.width * this.height)
@@ -83,11 +92,16 @@ export default class Rect {
 
   // intersects another rect (AABB)
   intersectsRect(other: Rect): boolean {
+    const thisRight = this.topLeft.x + this.width
+    const thisBottom = this.topLeft.y + this.height
+    const otherRight = other.topLeft.x + other.width
+    const otherBottom = other.topLeft.y + other.height
+
     return !(
-      other.topLeft.x > this.topLeft.x + this.width ||
-      other.topLeft.x + other.width < this.topLeft.x ||
-      other.topLeft.y > this.topLeft.y + this.height ||
-      other.topLeft.y + other.height < this.topLeft.y
+      other.topLeft.x >= thisRight ||
+      otherRight <= this.topLeft.x ||
+      other.topLeft.y >= thisBottom ||
+      otherBottom <= this.topLeft.y
     )
   }
 

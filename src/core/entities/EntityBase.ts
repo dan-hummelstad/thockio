@@ -1,19 +1,31 @@
-import type { EntityId } from "../types/identifiers"
+import Rect from "../geom/Rect"
+import type Vec from "../geom/Vec"
+import { createEntityId, type EntityId } from "../types/identifiers"
 import type Line from "./Line"
 
 export type Entities = Line 
 
 abstract class EntityBase {
   protected _id: EntityId | null
+  protected _boundingBox: Rect
 
-  constructor () {
-    this._id = null
+  constructor (id: EntityId | null = null) {
+    this._id = id ?? createEntityId()
+    this._boundingBox = Rect.fromXYWH(0, 0, 0, 0)
   }
 
   get id(): EntityId {
     return this._id ?? "test" as EntityId
   }
-  
+
+  get boundingBox(): Rect {
+    return this._boundingBox
+  }
+
+  abstract withPositionOffset(offset: Vec): Entities
+
+  abstract withPosition(newPosition: Vec): Entities
+
 }
 
 export default EntityBase

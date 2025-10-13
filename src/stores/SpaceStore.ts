@@ -2,13 +2,14 @@ import type { Entities } from "@/core/entities/EntityBase"
 import type EntityBase from "@/core/entities/EntityBase"
 import Line from "@/core/entities/Line"
 import Vec from "@/core/geom/Vec"
-import type { SpaceId } from "@/core/types/identifiers"
+import type { EntityId, SpaceId } from "@/core/types/identifiers"
 import { create } from "zustand"
 import { devtools } from 'zustand/middleware'
+import Rect from "@/core/geom/Rect"
 
 export interface Space {
   id: SpaceId
-  entities: Entities[]
+  entities: Map<EntityId, Entities>
 }
 
 export interface SpaceState {
@@ -16,8 +17,9 @@ export interface SpaceState {
 
   createSpace: (id: SpaceId) => void
   addEntity: (newEntity: Entities) => void
-  bulkTransformEntity: (transaction: () => Entities[]) => void
+  bulkTransformEntity: (transaction: (entities: Entities[]) => Entities[]) => void
   removeEntity: (entity: Entities) => void
+  getEntityAtPosition: (position: Vec) => Entities | null
 }
 
 // dont persist since this will rely on outside sources. Or do persist and just merge when possible
@@ -29,7 +31,7 @@ export const useSpaceStore = create<SpaceState>()(
         set(() => ({
           currentSpace: {
             id,
-            entities: []
+            entities: new Map<EntityId, Entities>()
           }
         }))
       },
@@ -39,7 +41,7 @@ export const useSpaceStore = create<SpaceState>()(
             return {
               currentSpace: {
                 ...prev.currentSpace,
-                entities: [...prev.currentSpace?.entities, entity]
+                entities: new Map(prev.currentSpace?.entities).set(entity.id, entity)
               }
             }
           } else {
@@ -48,8 +50,41 @@ export const useSpaceStore = create<SpaceState>()(
         }
       )
       },
-      bulkTransformEntity: (transaction: () => EntityBase[]) => null,
-      removeEntity: (entity: EntityBase) => null
+      bulkTransformEntity: (transaction: () => Entities[]) => {
+        set((prev) => {
+          if (prev.currentSpace) {
+            const transformedEntities = transaction()
+            const newEntitiesMap = new Map<EntityId, Entities>(prev.currentSpace.entities)
+            transformedEntities.forEach((entity) => {
+              newEntitiesMap.set(entity.id, entity)
+            })
+            return {
+              currentSpace: {
+                ...prev.currentSpace,
+                entities: newEntitiesMap
+              }
+            }
+          } else {
+            return prev
+          }
+        })
+      },
+      removeEntity: (entity: EntityBase) => null,
+      getEntityAtPosition: (clickPosition: Vec) => {
+        const space = get().currentSpace
+        if (!space) {
+          return null
+        }
+        const boxSize = 50
+        const hitBox = Rect.fromXYWH(clickPosition.x - boxSize/2, clickPosition.y - boxSize/2, boxSize, boxSize)
+        const found = Array.from(space.entities.values()).find((entity) => {
+          if (!entity.boundingBox) {
+            return false
+          }
+          return hitBox.intersectsRect(entity.boundingBox)
+        })
+        return found ?? null
+      }
     }),
     {
       name: "space-store"
@@ -58,7 +93,7 @@ export const useSpaceStore = create<SpaceState>()(
 )
 
 
-export const TestEntity = () => new Line(new Vec(15, 15), new Vec(15, 800), 10, "#FFFFFF")
-export const TestEntity1 = () => new Line(new Vec(15, 15), new Vec(800, 15), 10, "#FFFFFF")
-export const TestEntity2 = () => new Line(new Vec(800, 15), new Vec(800, 800), 10, "#FFFFFF")
-export const TestEntity3 = () => new Line(new Vec(800, 800), new Vec(15, 800), 10, "#FFFFFF")
+export const TestEntity = () => new Line(null, new Vec(15, 15), new Vec(15, 800), 10, "#FFFFFF")
+export const TestEntity1 = () => new Line(null, new Vec(15, 15), new Vec(800, 15), 10, "#FFFFFF")
+export const TestEntity2 = () => new Line(null, new Vec(800, 15), new Vec(800, 800), 10, "#FFFFFF")
+export const TestEntity3 = () => new Line(null, new Vec(800, 800), new Vec(15, 800), 10, "#FFFFFF")

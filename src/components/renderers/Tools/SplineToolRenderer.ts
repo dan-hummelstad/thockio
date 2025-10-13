@@ -1,7 +1,7 @@
-import type { RendererFactory } from "./Renderer";
+import type { RendererFactory } from "../Renderer";
 
-const LineRenderer: RendererFactory = (_options = { entities: [] }) => ({
-  name: "LineRenderer",
+const SplineToolRenderer: RendererFactory = (options = { entities: [] }) => ({
+  name: "SplineToolRenderer",
   shouldRender: (_ctx) => true,
   render: (ctx, opts) => {
     opts?.entities.forEach(ent => {
@@ -15,4 +15,4 @@ const LineRenderer: RendererFactory = (_options = { entities: [] }) => ({
   }
 })
 
-export default LineRenderer
+export default SplineToolRenderer

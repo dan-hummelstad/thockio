@@ -1,12 +1,8 @@
-import { CanvasRenderer } from "./components/CanvasRenderer"
+import MainEditor from "./components/MainEditor"
 
 function App() {
   return (
-    <div
-    className="touch-none"
-    >
-      <CanvasRenderer />
-    </div>
+    <MainEditor />
   )
 }
 

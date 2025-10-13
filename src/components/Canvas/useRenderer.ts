@@ -3,6 +3,7 @@ import type { RendererFactory } from "../renderers/Renderer"
 import { LayersToRenderersMap, useCanvasState } from "@/stores/CanvasStore"
 import type { Space } from "@/stores/SpaceStore"
 import type { CameraState } from "@/stores/CameraStore"
+import type { ToolsState } from "@/stores/ToolsStore"
 
 export function useRenderer(opts: {
   contextRef: React.RefObject<CanvasRenderingContext2D | null>
@@ -11,8 +12,9 @@ export function useRenderer(opts: {
   backgroundColor?: string | null
   space: Space | null
   camera: CameraState
+  tools: ToolsState
 }) {
-  const { contextRef, canvasRef, dimensions, backgroundColor, space, camera } = opts
+  const { contextRef, canvasRef, dimensions, backgroundColor, space, camera, tools } = opts
   const canvasState = useCanvasState()
 
   const performRender = useCallback(() => {
@@ -57,7 +59,7 @@ export function useRenderer(opts: {
         const currentRenderer = renderer()
         if (currentRenderer.shouldRender(context)) {
           currentRenderer.render(context, {
-            entities: space?.entities ?? [],
+            entities: Array.from(space?.entities.values() ?? []),
             canvasDimensions: dimensions
           })
         }
@@ -65,6 +67,9 @@ export function useRenderer(opts: {
         console.warn(`Renderer "${renderer.name}" failed to render:`, error)
       }
     })
+
+    // Render tool overlays
+    tools.currentTool?.render?.(context)
 
     try {
       context.restore()

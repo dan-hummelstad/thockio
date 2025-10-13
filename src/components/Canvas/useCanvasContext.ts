@@ -29,7 +29,8 @@ export function useCanvasContext(opts: {
     const height = Math.max(1, dimensions.height * dpi)
     
     if (canvas.width !== width || canvas.height !== height) {
-      camera.setCamera({ ...camera.camera, zoom: 1, viewport: Rect.fromXYWH(0, 0, width, height) })
+      // if 0,0 is the centre of the viewport, what is the top left?
+      camera.setCamera({ ...camera.camera, zoom: 1, viewport: Rect.fromXYWH(-width / 2, -height / 2, width, height) })
       canvas.style.width = `${dimensions.width}px`
       canvas.style.height = `${dimensions.height}px`
       canvas.width = width
@@ -57,7 +58,7 @@ export function useCanvasContext(opts: {
     const height = Math.max(1, dimensions.height * dpi)
 
     if (canvas.width !== width || canvas.height !== height) {
-      camera.setCamera({ ...camera.camera, viewport: Rect.fromXYWH(0, 0, width, height) })
+      camera.setCamera({ ...camera.camera, viewport: Rect.fromXYWH(-width / 2, -height / 2, width, height) })
       canvas.style.width = `${dimensions.width}px`
       canvas.style.height = `${dimensions.height}px`
       canvas.width = width
