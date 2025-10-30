@@ -8,8 +8,8 @@ import { createSpaceId } from "@/core/types/identifiers"
 import { useCameraStore } from "@/stores/CameraStore"
 import useGestures from "@/hooks/use-gestures"
 import { useToolsStore } from "@/stores/ToolsStore"
-import { SelectionTool } from "@/tools/selectionTool"
-import { SplineTool } from "@/tools/splineTool"
+import { SelectionTool } from "@/tools/SelectionTool"
+import { SplineTool } from "@/tools/SplineTool"
 
 interface CanvasProps {
   aspectRatio?: number
@@ -70,7 +70,7 @@ export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
     tools.setCurrentTool("spline")
   }, [])
 
-  // too re-render isnt happening immediately after tool state changes or something
+  // tool re-render isnt happening immediately after tool state changes or something
   tools.currentTool?.store.subscribe(() => {
     const frame = requestAnimationFrame(() => performRender())
     return () => cancelAnimationFrame(frame)

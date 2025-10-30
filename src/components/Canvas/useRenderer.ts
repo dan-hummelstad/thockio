@@ -76,7 +76,19 @@ export function useRenderer(opts: {
     } catch (e) {
       console.warn(e)
     }
-  }, [contextRef, canvasRef, dimensions, backgroundColor, space, canvasState.activeLayerNames, camera.camera])
+
+    // NEW: mark a frame so lastRenderTime updates (DebugOverlay FPS)
+    // canvasState._internalRender()
+  }, [
+    contextRef,
+    canvasRef,
+    dimensions,
+    backgroundColor,
+    space,
+    canvasState.activeLayerNames,
+    canvasState._internalRender, // added
+    camera.camera
+  ])
 
   return performRender
 }

@@ -116,6 +116,7 @@ export class SelectionTool extends Tool<SelectionToolState> {
 
   onPointerUp: GestureHandlers["onMouseUp"] = (_state) => {
     this.store.setState({
+      selectedEntityIds: new Set(),
       isDraggingEntity: false,
       dragOffset: null,
     })
@@ -151,5 +152,21 @@ export class SelectionTool extends Tool<SelectionToolState> {
       ctx.stroke()
       ctx.restore()
     })
+  }
+
+  reset(): void {
+    this.store.setState({
+      selectedEntityIds: new Set(),
+      isDraggingEntity: false,
+      dragOffset: null,
+    })
+  }
+
+  onActivate(): void {
+    this.reset()
+  }
+
+  onDeactivate(): void {
+    this.reset()
   }
 }

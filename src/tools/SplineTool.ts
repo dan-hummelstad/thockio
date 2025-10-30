@@ -108,15 +108,6 @@ export class SplineTool extends Tool<SplineToolState> {
     })
   }
 
-  onDeactivate() {
-    // Clear any in-progress drawing when switching tools
-    this.store.setState({
-      startPoint: null,
-      currentPoint: null,
-      isDrawing: false,
-    })
-  }
-
   render(ctx: CanvasRenderingContext2D) {
     const cameraStore = useCameraStore.getState()
     const { startPoint, currentPoint, isDrawing } = this.getState()
@@ -157,5 +148,14 @@ export class SplineTool extends Tool<SplineToolState> {
       currentPoint: null,
       isDrawing: false,
     })
+  }
+
+  onDeactivate(): void {
+    // Clear any in-progress drawing when switching tools
+    this.reset()
+  }
+
+  onActivate(): void {
+    this.reset()
   }
 }

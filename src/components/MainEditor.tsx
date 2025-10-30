@@ -1,5 +1,6 @@
 import { CanvasRenderer } from "./CanvasRenderer";
 import ToolBar from "./ToolBar";
+import { DebugOverlay } from "./debug/DebugOverlay";
 
 export default function MainEditor() {
   return (
@@ -8,6 +9,7 @@ export default function MainEditor() {
     >
       <CanvasRenderer />
       <ToolBar />
+      <DebugOverlay />
     </div>
   )
 }
