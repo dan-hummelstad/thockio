@@ -1,9 +1,9 @@
 import { useCallback } from "react"
-import type { RendererFactory } from "../renderers/Renderer"
-import { LayersToRenderersMap, useCanvasState } from "@/stores/CanvasStore"
-import type { Space } from "@/stores/SpaceStore"
-import type { CameraState } from "@/stores/CameraStore"
-import type { ToolsState } from "@/stores/ToolsStore"
+import type { RendererFactory } from "@/components/renderers/Renderer"
+import { LayersToRenderersMap, useCanvasState } from "@/stores/canvas-store"
+import type { Space } from "@/stores/space-store"
+import type { CameraState } from "@/stores/camera-store"
+import type { ToolsState } from "@/stores/tools-store"
 
 export function useRenderer(opts: {
   contextRef: React.RefObject<CanvasRenderingContext2D | null>
@@ -87,7 +87,8 @@ export function useRenderer(opts: {
     space,
     canvasState.activeLayerNames,
     canvasState._internalRender, // added
-    camera.camera
+    camera.camera,
+    tools.currentTool // Add this dependency
   ])
 
   return performRender

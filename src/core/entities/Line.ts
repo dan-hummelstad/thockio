@@ -1,7 +1,7 @@
-import Rect from "../geom/Rect";
-import Vec from "../geom/Vec";
+import Rect from "../geom/rect";
+import Vec from "../geom/vec";
 import type { EntityId } from "../types/identifiers";
-import EntityBase, { type Entities } from "./EntityBase";
+import EntityBase, { type Entities } from "./entity-base";
 
 
 class Line extends EntityBase {

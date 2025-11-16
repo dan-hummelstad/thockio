@@ -1,4 +1,4 @@
-import MainEditor from "./components/MainEditor"
+import MainEditor from "./components/main-editor"
 
 function App() {
   return (

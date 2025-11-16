@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react"
-import { type CameraState } from "@/stores/CameraStore"
-import Rect from "@/core/geom/Rect";
+import { type CameraState } from "@/stores/camera-store"
+import Rect from "@/core/geom/rect"
 
 export function useCanvasContext(opts: {
   dimensions: { width: number; height: number }

@@ -1,7 +1,7 @@
 import { create } from 'zustand'
 import { devtools, persist } from 'zustand/middleware'
-import type { RendererFactory } from "../components/renderers/Renderer"
-import LineRenderer from '@/components/renderers/Entities/LineRenderer'
+import type { RendererFactory } from "@/components/renderers/Renderer"
+import LineRenderer from '@/components/renderers/Entities/line-renderer'
 
 export interface CanvasConfig {
   width: number

@@ -1,5 +1,5 @@
-import Rect from '@/core/geom/Rect'
-import Vec from '@/core/geom/Vec'
+import Rect from '@/core/geom/rect'
+import Vec from '@/core/geom/vec'
 import { create } from 'zustand'
 
 export interface Camera {

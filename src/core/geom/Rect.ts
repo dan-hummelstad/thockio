@@ -1,5 +1,5 @@
-import Vec from "./Vec"
-import LineSegment from "./LineSegment"
+import Vec from "@/core/geom/vec"
+import LineSegment from "@/core/geom/line-segment"
 
 export default class Rect {
   readonly topLeft: Vec

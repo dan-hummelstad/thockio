@@ -1,4 +1,4 @@
-import Vec from "./Vec"
+import Vec from "./vec"
 
 export interface SegmentIntersection {
   intersects: boolean

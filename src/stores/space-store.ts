@@ -1,11 +1,11 @@
-import type { Entities } from "@/core/entities/EntityBase"
-import type EntityBase from "@/core/entities/EntityBase"
-import Line from "@/core/entities/Line"
-import Vec from "@/core/geom/Vec"
+import type { Entities } from "@/core/entities/entity-base"
+import type EntityBase from "@/core/entities/entity-base"
+import Line from "@/core/entities/line"
+import Vec from "@/core/geom/vec"
 import type { EntityId, SpaceId } from "@/core/types/identifiers"
 import { create } from "zustand"
 import { devtools } from 'zustand/middleware'
-import Rect from "@/core/geom/Rect"
+import Rect from "@/core/geom/rect"
 
 export interface Space {
   id: SpaceId

@@ -1,4 +1,4 @@
-import type { Entities } from "@/core/entities/EntityBase"
+import type { Entities } from "@/core/entities/entity-base"
 
 export interface RendererOptions {
   [key: string]: unknown

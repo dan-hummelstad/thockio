@@ -1,7 +1,7 @@
-import Rect from "../geom/Rect"
-import type Vec from "../geom/Vec"
+import Rect from "@/core/geom/rect"
+import type Vec from "@/core/geom/vec"
 import { createEntityId, type EntityId } from "../types/identifiers"
-import type Line from "./Line"
+import type Line from "@/core/entities/line"
 
 export type Entities = Line 
 

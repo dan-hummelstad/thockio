@@ -1,6 +1,6 @@
 import { MousePointer2Icon, SplineIcon } from "lucide-react"
 import { Toggle } from "./ui/toggle"
-import { useToolsStore } from "@/stores/ToolsStore"
+import { useToolsStore } from "@/stores/tools-store"
 
 export default function ToolBar () {
   const { currentTool, setCurrentTool } = useToolsStore()

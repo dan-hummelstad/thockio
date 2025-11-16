@@ -1,6 +1,6 @@
-import Vec from "@/core/geom/Vec"
-import { useCameraStore } from "@/stores/CameraStore"
-import { useToolsStore } from "@/stores/ToolsStore"
+import Vec from "@/core/geom/vec"
+import { useCameraStore } from "@/stores/camera-store"
+import { useToolsStore } from "@/stores/tools-store"
 import {
   useGesture,
   type EventTypes,

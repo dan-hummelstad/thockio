@@ -1,15 +1,15 @@
 import React, { useCallback, useEffect } from "react"
-import { TestEntity, TestEntity1, TestEntity2, TestEntity3, useSpaceStore } from "@/stores/SpaceStore"
-import { useCanvasConfig } from "@/stores/CanvasStore"
-import { useCanvasDimensions } from "@/components/Canvas/useCanvasDimensions"
-import { useCanvasContext } from "@/components/Canvas/useCanvasContext"
-import { useRenderer } from "@/components/Canvas/useRenderer"
+import { TestEntity, TestEntity1, TestEntity2, TestEntity3, useSpaceStore } from "@/stores/space-store"
+import { useCanvasConfig } from "@/stores/canvas-store"
+import { useCanvasDimensions } from "@/components/Canvas/use-canvas-dimensions"
+import { useCanvasContext } from "@/components/Canvas/use-canvas-context"
+import { useRenderer } from "@/components/Canvas/use-renderer"
 import { createSpaceId } from "@/core/types/identifiers"
-import { useCameraStore } from "@/stores/CameraStore"
+import { useCameraStore } from "@/stores/camera-store"
 import useGestures from "@/hooks/use-gestures"
-import { useToolsStore } from "@/stores/ToolsStore"
-import { SelectionTool } from "@/tools/SelectionTool"
-import { SplineTool } from "@/tools/SplineTool"
+import { useToolsStore } from "@/stores/tools-store"
+import { SelectionTool } from "@/tools/selection-tool"
+import { SplineTool } from "@/tools/spline-tool"
 
 interface CanvasProps {
   aspectRatio?: number
@@ -70,11 +70,22 @@ export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
     tools.setCurrentTool("spline")
   }, [])
 
-  // tool re-render isnt happening immediately after tool state changes or something
-  tools.currentTool?.store.subscribe(() => {
-    const frame = requestAnimationFrame(() => performRender())
-    return () => cancelAnimationFrame(frame)
-  })
+  // Subscribe to current tool state changes
+  useEffect(() => {
+    if (!tools.currentTool?.store) return
+
+    const unsubscribe = tools.currentTool.store.subscribe(() => {
+      performRender()
+    })
+
+    return unsubscribe
+  }, [tools.currentTool, performRender])
+
+  // Subscribe to tool changes to trigger re-render
+  useEffect(() => {
+    // Trigger a render when tool changes
+    performRender()
+  }, [tools.currentTool, performRender])
 
   // Populate test entities once (kept here for compatibility)
   useEffect(() => {

@@ -1,6 +1,6 @@
-import { CanvasRenderer } from "./CanvasRenderer";
-import ToolBar from "./ToolBar";
-import { DebugOverlay } from "./debug/DebugOverlay";
+import { CanvasRenderer } from "./canvas-renderer";
+import ToolBar from "./tool-bar";
+import { DebugOverlay } from "./debug/debug-overlay";
 
 export default function MainEditor() {
   return (

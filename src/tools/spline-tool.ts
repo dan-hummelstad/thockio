@@ -1,10 +1,10 @@
 import { create } from "zustand"
 import { Tool, type ToolState } from "./tools"
-import { useCameraStore } from "@/stores/CameraStore"
-import { useSpaceStore } from "@/stores/SpaceStore"
-import Vec from "@/core/geom/Vec"
+import { useCameraStore } from "@/stores/camera-store"
+import { useSpaceStore } from "@/stores/space-store"
+import Vec from "@/core/geom/vec"
 import type { GestureHandlers } from "@/hooks/use-gestures"
-import Line from "@/core/entities/Line"
+import Line from "@/core/entities/line"
 
 export interface SplineToolState extends ToolState {
   startPoint: Vec | null

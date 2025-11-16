@@ -1,6 +1,6 @@
 import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
-import { useCanvasStore } from "@/stores/CanvasStore"
-import { useToolsStore } from "@/stores/ToolsStore"
+import { useCanvasStore } from "@/stores/canvas-store"
+import { useToolsStore } from "@/stores/tools-store"
 
 export interface DebugContext {
   fps: number
