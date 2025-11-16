@@ -1,3 +1,4 @@
+import React from "react"
 import Vec from "@/core/geom/vec"
 import { useCameraStore } from "@/stores/camera-store"
 import { useToolsStore } from "@/stores/tools-store"

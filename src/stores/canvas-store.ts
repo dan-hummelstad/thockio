@@ -1,6 +1,6 @@
 import { create } from 'zustand'
-import { devtools, persist } from 'zustand/middleware'
-import type { RendererFactory } from "@/components/renderers/Renderer"
+import { devtools } from 'zustand/middleware'
+import type { RendererFactory } from "@/components/renderers/renderer"
 import LineRenderer from '@/components/renderers/Entities/line-renderer'
 
 export interface CanvasConfig {
@@ -48,11 +48,11 @@ export const useCanvasStore = create<CanvasRendererState>()(
       isRendering: false,
       activeLayerNames: ['lines'],
 
-      setCanvasConfig: (config: Partial<CanvasConfig>) => null,
-      updateCanvasState: (newState: Partial<CanvasRendererState>) => null,
-      addLayer: (layer: CanvasLayer) => null,
-      removeLayer: (layerName: LayerNames) => null,
-      toggleLayer: (LayerNames: LayerNames) => null,
+      setCanvasConfig: (_config: Partial<CanvasConfig>) => null,
+      updateCanvasState: (_newState: Partial<CanvasRendererState>) => null,
+      addLayer: (_layer: CanvasLayer) => null,
+      removeLayer: (_layerName: LayerNames) => null,
+      toggleLayer: (_LayerNames: LayerNames) => null,
 
       clearRenderers: () => {
         set({ activeLayerNames: [] })

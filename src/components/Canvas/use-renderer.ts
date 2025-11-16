@@ -1,5 +1,5 @@
-import { useCallback } from "react"
-import type { RendererFactory } from "@/components/renderers/Renderer"
+import React, { useCallback } from "react"
+import type { RendererFactory } from "@/components/renderers/renderer"
 import { LayersToRenderersMap, useCanvasState } from "@/stores/canvas-store"
 import type { Space } from "@/stores/space-store"
 import type { CameraState } from "@/stores/camera-store"
@@ -8,7 +8,10 @@ import type { ToolsState } from "@/stores/tools-store"
 export function useRenderer(opts: {
   contextRef: React.RefObject<CanvasRenderingContext2D | null>
   canvasRef: React.RefObject<HTMLCanvasElement | null>
-  dimensions: { width: number; height: number }
+  dimensions: {
+    width: number
+    height: number
+  }
   backgroundColor?: string | null
   space: Space | null
   camera: CameraState
@@ -45,7 +48,8 @@ export function useRenderer(opts: {
       context.translate(viewportCentre.x, viewportCentre.y)
       context.scale(camera.camera.zoom, camera.camera.zoom)
 
-    } catch (e) {
+    } catch (e: unknown) {
+      console.warn(e)
       // ignore transform errors
     }
 
@@ -77,8 +81,6 @@ export function useRenderer(opts: {
       console.warn(e)
     }
 
-    // NEW: mark a frame so lastRenderTime updates (DebugOverlay FPS)
-    // canvasState._internalRender()
   }, [
     contextRef,
     canvasRef,
@@ -86,9 +88,8 @@ export function useRenderer(opts: {
     backgroundColor,
     space,
     canvasState.activeLayerNames,
-    canvasState._internalRender, // added
     camera.camera,
-    tools.currentTool // Add this dependency
+    tools.currentTool
   ])
 
   return performRender

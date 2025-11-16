@@ -3,7 +3,10 @@ import { type CameraState } from "@/stores/camera-store"
 import Rect from "@/core/geom/rect"
 
 export function useCanvasContext(opts: {
-  dimensions: { width: number; height: number }
+  dimensions: {
+    width: number
+    height: number
+  }
   isInitialized: boolean
   backgroundColor?: string | null
   camera: CameraState

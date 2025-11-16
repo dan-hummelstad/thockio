@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
 
 export function useCanvasDimensions(opts: {
   aspectRatio?: number
@@ -13,7 +13,10 @@ export function useCanvasDimensions(opts: {
 
   // Calculate dimensions (memoized)
   const calculateDimensions = useMemo(() => {
-    return (container: HTMLDivElement | null): { width: number; height: number } => {
+    return (container: HTMLDivElement | null): {
+      width: number
+      height: number
+    } => {
       if (!container) {
         const width = window.innerWidth
         let height = window.innerHeight
@@ -55,9 +58,10 @@ export function useCanvasDimensions(opts: {
   }, [aspectRatio])
 
   // Debounced resize
-  const debounce = useCallback((fn: Function, wait = 50) => {
-    let timeout: any = null
-    return (...args: any[]) => {
+  // eslint-disable-next-line local-rules/no-bare-use-memo-callback
+  const debounce = useCallback((fn: (...args: unknown[]) => void, wait = 50) => {
+    let timeout: ReturnType<typeof setTimeout> | null = null
+    return (...args: unknown[]) => {
       if (timeout) clearTimeout(timeout)
       timeout = setTimeout(() => fn(...args), wait)
     }

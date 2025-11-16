@@ -1,6 +1,6 @@
-import type { RendererFactory } from "../renderer";
+import type { RendererFactory } from "@/components/renderers/renderer"
 
-const SplineToolRenderer: RendererFactory = (options = { entities: [] }) => ({
+const SplineToolRenderer: RendererFactory = (_options = { entities: [] }) => ({
   name: "SplineToolRenderer",
   shouldRender: (_ctx) => true,
   render: (ctx, opts) => {

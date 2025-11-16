@@ -1,4 +1,4 @@
-import type { RendererFactory } from "../renderer"
+import type { RendererFactory } from "@/components/renderers/renderer"
 
 const LineRenderer: RendererFactory = (_options = { entities: [] }) => ({
   name: "LineRenderer",

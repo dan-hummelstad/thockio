@@ -1,4 +1,5 @@
-import * as React from "react"
+/* eslint-disable local-rules/prefer-inline-single-use-handlers */
+import React from "react"
 import useEmblaCarousel, {
   type UseEmblaCarouselType,
 } from "embla-carousel-react"

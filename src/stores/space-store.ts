@@ -69,7 +69,7 @@ export const useSpaceStore = create<SpaceState>()(
           }
         })
       },
-      removeEntity: (entity: EntityBase) => null,
+      removeEntity: (_entity: EntityBase) => null,
       getEntityAtPosition: (clickPosition: Vec) => {
         const space = get().currentSpace
         if (!space) {

@@ -138,7 +138,7 @@ export class SelectionTool extends Tool<SelectionToolState> {
       ctx.save()
       ctx.strokeStyle = "red"
       ctx.lineWidth = 2 / cameraStore.camera.zoom
-      ctx.setLineDash([10]);
+      ctx.setLineDash([10])
 
       ctx.beginPath()
       boxCorners.forEach((point, i) => {

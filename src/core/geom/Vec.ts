@@ -462,7 +462,10 @@ class Vec {
   /**
    * JSON representation
    */
-  toJSON(): { x: number; y: number } {
+  toJSON(): {
+    x: number
+    y: number
+  } {
     return { x: this._x, y: this._y }
   }
 }

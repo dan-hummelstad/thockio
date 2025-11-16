@@ -3,9 +3,7 @@ import type { StoreApi, UseBoundStore } from "zustand"
 
 export type Tools = "selection" | "spline"
 
-export interface ToolState {
-  // Base tool state properties
-}
+export type ToolState = object // base tool state properties (shared between all tools)
 
 export abstract class Tool<T extends ToolState> {
   abstract id: Tools

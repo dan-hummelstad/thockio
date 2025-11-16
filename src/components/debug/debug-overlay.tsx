@@ -1,11 +1,14 @@
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react"
+import React, { useEffect, useMemo, useRef, useState } from "react"
 import { useCanvasStore } from "@/stores/canvas-store"
 import { useToolsStore } from "@/stores/tools-store"
 
 export interface DebugContext {
   fps: number
   frameCount: number
-  mouse: { x: number; y: number }
+  mouse: {
+    x: number
+    y: number
+  }
   tool: {
     id: string | null
     name: string | null
@@ -27,6 +30,7 @@ interface DebugOverlayProps {
   style?: React.CSSProperties
 }
 
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function sanitize(value: any, seen = new WeakSet()): any {
   if (value == null) return value
   if (typeof value === "number" || typeof value === "string" || typeof value === "boolean") return value
@@ -40,6 +44,7 @@ function sanitize(value: any, seen = new WeakSet()): any {
   }
   if (typeof value === "object") {
     seen.add(value)
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const out: Record<string, any> = {}
     Object.keys(value).forEach(k => {
       try {
@@ -127,14 +132,14 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({ panels = [], classNa
   const fps = frameTimesRef.current.length
   const toolState = tools.currentTool ? tools.currentTool.getState() : null
 
-  const registerPanel = useCallback((panel: DebugPanel) => {
+  const registerPanel = (panel: DebugPanel) => {
     setDynamicPanels(prev => {
       if (prev.find(p => p.id === panel.id)) {
         return prev.map(p => (p.id === panel.id ? panel : p))
       }
-            return [...prev, panel]
+      return [...prev, panel]
     })
-  }, [])
+  }
 
   const context: DebugContext = useMemo(() => ({
     fps,
@@ -146,7 +151,7 @@ export const DebugOverlay: React.FC<DebugOverlayProps> = ({ panels = [], classNa
       state: toolState
     },
     registerPanel
-  }), [fps, mouse, toolState, tools.currentTool, registerPanel])
+  }), [fps, mouse, toolState, tools.currentTool])
 
   const orderedPanels: DebugPanel[] = useMemo(
     () => [...dynamicPanels].sort((a, b) => (a.order ?? 999) - (b.order ?? 999)),

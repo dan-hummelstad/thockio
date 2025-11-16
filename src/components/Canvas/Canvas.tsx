@@ -59,15 +59,17 @@ export default function Canvas({ aspectRatio, containerRef }: CanvasProps) {
   useGestures({ containerElement })
 
   // Change to custom context menu
+  // eslint-disable-next-line local-rules/no-bare-use-memo-callback
   const handleContextMenu = useCallback((e: React.MouseEvent) => {
-    e.preventDefault();
-  }, []);
+    e.preventDefault()
+  }, [])
 
   useEffect(() => {
     TOOLS.forEach(tool => {
       tools.registerTool(tool)
     })
     tools.setCurrentTool("spline")
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // Subscribe to current tool state changes
