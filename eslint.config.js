@@ -88,7 +88,7 @@ export default [
       "no-unused-vars": "off", // disable base in favor of TS variant
       "filenames-simple/naming-convention": [
         "warn",
-        { rule: "kebab-case" },
+        { rule: "kebab-case", allowLeadingUnderscore: false, allowSingleWord: true },
       ],
 
       // Custom rules encoding the “red flags” guidance:

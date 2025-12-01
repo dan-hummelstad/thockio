@@ -232,7 +232,7 @@ export class SelectionTool extends Tool<SelectionToolState> {
       selectedEntityIds: new Set(),
       isDraggingEntity: false,
       dragOffset: null,
-      initialDragPos: null, // Add this
+      initialDragPos: null,
     })
   }
 
