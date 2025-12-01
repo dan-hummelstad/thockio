@@ -1,3 +1,3 @@
-import Canvas from "@/components/Canvas/canvas"
+import Canvas from "@/components/canvas/canvas"
 
 export { Canvas as CanvasRenderer }

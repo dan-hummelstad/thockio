@@ -1,15 +1,16 @@
 import React, { useCallback, useEffect } from "react"
 import { TestEntity, TestEntity1, TestEntity2, TestEntity3, useSpaceStore } from "@/stores/space-store"
 import { useCanvasConfig } from "@/stores/canvas-store"
-import { useCanvasDimensions } from "@/components/Canvas/use-canvas-dimensions"
-import { useCanvasContext } from "@/components/Canvas/use-canvas-context"
-import { useRenderer } from "@/components/Canvas/use-renderer"
+import { useCanvasDimensions } from "@/components/canvas/use-canvas-dimensions"
+import { useCanvasContext } from "@/components/canvas/use-canvas-context"
+import { useRenderer } from "@/components/canvas/use-renderer"
 import { createSpaceId } from "@/core/types/identifiers"
 import { useCameraStore } from "@/stores/camera-store"
 import useGestures from "@/hooks/use-gestures"
 import { useToolsStore } from "@/stores/tools-store"
 import { SelectionTool } from "@/tools/selection-tool"
 import { SplineTool } from "@/tools/spline-tool"
+import { PenTool } from "@/tools/pen-tool"
 
 interface CanvasProps {
   aspectRatio?: number
@@ -18,7 +19,8 @@ interface CanvasProps {
 
 const TOOLS = [
   new SelectionTool(),
-  new SplineTool()
+  new SplineTool(),
+  new PenTool()
 ] as const
 
 // Probably refactor all these stores into a greater context hook of some sort

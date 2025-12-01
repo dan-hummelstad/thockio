@@ -20,6 +20,7 @@ export interface SpaceState {
   bulkTransformEntity: (transaction: (entities: Entities[]) => Entities[]) => void
   removeEntity: (entity: Entities) => void
   getEntityAtPosition: (position: Vec) => Entities | null
+  getEntitiesInRect: (rect: Rect) => Set<Entities>
 }
 
 // dont persist since this will rely on outside sources. Or do persist and just merge when possible
@@ -84,6 +85,19 @@ export const useSpaceStore = create<SpaceState>()(
           return hitBox.intersectsRect(entity.boundingBox)
         })
         return found ?? null
+      },
+      getEntitiesInRect: (rect: Rect) => {
+        const space = get().currentSpace
+        const foundEntities = new Set<Entities>()
+        if (!space) {
+          return foundEntities
+        }
+        space.entities.forEach((entity) => {
+          if (entity.boundingBox && rect.intersectsRect(entity.boundingBox)) {
+            foundEntities.add(entity)
+          }
+        })
+        return foundEntities
       }
     }),
     {

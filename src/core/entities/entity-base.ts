@@ -2,8 +2,9 @@ import Rect from "@/core/geom/rect"
 import type Vec from "@/core/geom/vec"
 import { createEntityId, type EntityId } from "../types/identifiers"
 import type Line from "@/core/entities/line"
+import type Stroke from "@/core/entities/stroke"
 
-export type Entities = Line 
+export type Entities = Line | Stroke
 
 abstract class EntityBase {
   protected _id: EntityId | null

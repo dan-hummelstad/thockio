@@ -1,5 +1,5 @@
-import { MousePointer2Icon, SplineIcon } from "lucide-react"
-import { Toggle } from "./ui/toggle"
+import { MousePointer2Icon, PenIcon, SplineIcon } from "lucide-react"
+import { Toggle } from "@/components/ui/toggle"
 import { useToolsStore } from "@/stores/tools-store"
 
 export default function ToolBar () {
@@ -25,6 +25,14 @@ export default function ToolBar () {
           className="data-[state=on]:bg-green-300 data-[state=on]:text-accent-foreground"
         >
           <SplineIcon />
+        </Toggle>
+        <Toggle
+          pressed={currentTool?.id === "pen"}
+          onPressedChange={(pressed) => setCurrentTool(pressed ? "pen" : null)}
+          variant="outline"
+          className="data-[state=on]:bg-green-300 data-[state=on]:text-accent-foreground"
+        >
+          <PenIcon />
         </Toggle>
       </div>
     </div>

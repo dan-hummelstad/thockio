@@ -2,6 +2,7 @@ import { create } from 'zustand'
 import { devtools } from 'zustand/middleware'
 import type { RendererFactory } from "@/components/renderers/renderer"
 import LineRenderer from '@/components/renderers/Entities/line-renderer'
+import StrokeRenderer from '@/components/renderers/Entities/stroke-renderer'
 
 export interface CanvasConfig {
   width: number
@@ -97,7 +98,7 @@ type RendererNames = 'line'
 export const LayersToRenderersMap: CanvasLayer[] = [
   {
     name: "lines", // this will probably turn into something like "geometry"
-    renderers: [LineRenderer],
+    renderers: [LineRenderer, StrokeRenderer],
     activeRendererNames: []
   }
   // Then more for images and other such things

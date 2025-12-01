@@ -1,7 +1,7 @@
 import type { GestureHandlers } from "@/hooks/use-gestures"
 import type { StoreApi, UseBoundStore } from "zustand"
 
-export type Tools = "selection" | "spline"
+export type Tools = "selection" | "spline" | "pen"
 
 export type ToolState = object // base tool state properties (shared between all tools)
 
